@@ -34,6 +34,14 @@ jobs:
     - name: Print test results (debug)
       run: echo "${{ steps.tests.outputs.result }}"
 
+    - name: Validate test results
+      run: |
+        if [ -z "${{ steps.tests.outputs.result }}" ]; then
+          echo '{}' > test_results.json
+        else
+          echo "${{ steps.tests.outputs.result }}" > test_results.json
+        fi
+
     - name: Autograding Reporter
       uses: classroom-resources/autograding-grading-reporter@v1
       env:
